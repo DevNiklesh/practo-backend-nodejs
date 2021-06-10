@@ -1,0 +1,77 @@
+const mongoose = require('mongoose')
+const validator = require('validator')
+const bcrypt = require('bcryptjs')
+
+
+const userSchema = new mongoose.Schema({
+        name:{
+            type:String,
+            require:true,
+            trim:true
+    
+        },
+        
+        email: {
+         type:String,
+         require:true,
+         unique:true,
+         trim:true,
+         lowercase:true,
+         validate(value){
+             if(!validator.isEmail(value))
+             {
+                 throw new Error('Email is invalid')
+             }
+    
+         }
+    
+        },
+        password: {
+            type:String,
+            require:true,
+            validate(value){
+                if(!validator.isStrongPassword(value))
+                {
+                    throw new Error('Password should be strong enough')
+                }
+            }
+    
+        }
+    })
+
+    userSchema.statics.findByCredentials = async (email,password) => {
+       
+        const user = await User.findOne({ email })
+        if(!user) {
+            throw new Error('Email does not exists')
+        }
+
+        const isMatch = await bcrypt.compare(password,user.password)
+        if(!isMatch)
+        {
+            throw new Error ('password is incorrect')
+        }
+        return user
+    }
+
+    userSchema.pre('save', async function(next)
+    {
+      const user = this
+
+      if(user.isModified('password')){
+          user.password = await bcrypt.hash(user.password,8)
+      }
+
+      next()
+
+      })
+
+    
+
+    
+const User = mongoose.model('User',userSchema)
+    
+
+
+
+module.exports= User
