@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs')
 const jwt=require('jsonwebtoken')
 
 
-const userSchema = new mongoose.Schema({
+const doctorSchema = new mongoose.Schema({
         name:{
             type:String,
             require:true,
@@ -47,37 +47,42 @@ const userSchema = new mongoose.Schema({
     })
    
     //generating jwt tokens
-    userSchema.methods.generateAuthToken = async function() {
-      const user = this
+    doctorSchema.methods.generateAuthToken = async function() {
+      const doctor = this
       
-      const token = jwt.sign({ _id:user._id.toString()},'thisisforauthentication')
-      user.tokens = user.tokens.concat({ token } )
-       await user.save()
+      const token = jwt.sign({ _id:doctor._id.toString()},'thisisforauthentication')
+      doctor.tokens = doctor.tokens.concat({ token } )
+       await doctor.save()
       return token 
     }
 
-    userSchema.statics.findByCredentials = async (email,password) => {
+    doctorSchema.statics.findByCredentials = async (email,password) => {
        
-        const user = await User.findOne({ email })
-        if(!user) {
-            throw new Error(JSON.parse('Email does not exists'))
+        const doctor = await doctor.findOne({ email })
+        if(!doctor) {
+           //throw new Error('Email does not exists')
+           return false
+           
         }
 
-        const isMatch = await bcrypt.compare(password,user.password)
+        const isMatch = await bcrypt.compare(password,doctor.password)
+
         if(!isMatch)
         {
-            throw new Error (JSON.parse('password is incorrect'))
+         //   throw new Error ('password is incorrect')
+         return false
+            
         }
-        return user
+        return doctor
     }
 
   //Hashing the password before saving 
-    userSchema.pre('save', async function(next)
+    doctorSchema.pre('save', async function(next)
     {
-      const user = this
+      const doctor = this
 
-      if(user.isModified('password')){
-          user.password = await bcrypt.hash(user.password,8)
+      if(doctor.isModified('password')){
+          doctor.password = await bcrypt.hash(doctor.password,8)
       }
 
       next()
@@ -87,9 +92,9 @@ const userSchema = new mongoose.Schema({
     
 
     
-const User = mongoose.model('User',userSchema)
+const Doctor = mongoose.model('doctor',doctorSchema)
     
 
 
 
-module.exports= User
+module.exports= Doctor
