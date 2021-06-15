@@ -45,6 +45,18 @@ const patientSchema = new mongoose.Schema({
             }
         }]
     })
+
+    //hiding private data of user
+    userSchema.methods.getPublicProfile = function () {
+        const user = this
+        const userObject = user.toObject()
+        
+        delete userObject._id
+        delete userObject.password
+        delete userObject.tokens
+        
+        return userObject
+    }
    
     //generating jwt tokens
     patientSchema.methods.generateAuthToken = async function() {
