@@ -1,28 +1,28 @@
 const express = require('express')
-const {User,dbConnection}= require('../db/index')
+const {Doctor,dbConnection}= require('../db/index')
 const authentication = require('../middleware/authentication')
 const router = new express.Router()
 
-//For Signing up New User
+//For Signing up New Doctor
 router.post('/signup',async (req,res) => {
-    const user = new User(req.body)
+    const doctor = new Doctor(req.body)
     
       try{
-         await user.save() 
-        const token = await user.generateAuthToken()
-        res.status(201).send({ user:user.getPublicProfile(),token } )
+         await doctor.save() 
+        const token = await doctor.generateAuthToken()
+        res.status(201).send({ doctor:doctor.getPublicProfile(),token } )
 
     }
     catch(error) {
         res.status(400).send({error:"please enter valid email and password"})
     }
 })
-//For logging in User
+//For logging in Doctor
 router.post('/login',async (req,res) => {
     try{
-        const user = await User.findByCredentials( req.body.email, req.body.password)
-        const token = await user.generateAuthToken()
-        res.send({token,user:user.getPublicProfile()})
+        const doctor = await Doctor.findByCredentials( req.body.email, req.body.password)
+        const token = await doctor.generateAuthToken()
+        res.send({token,doctor:doctor.getPublicProfile()})
       }catch(error){
        res.status(400).send({error:"Unable to login"})
     }

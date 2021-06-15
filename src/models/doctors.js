@@ -5,6 +5,8 @@ const jwt=require('jsonwebtoken')
 
 
 const doctorSchema = new mongoose.Schema({
+
+       doctor_id : mongoose.Schema.Types.ObjectId,
         name:{
             type:String,
             require:true,
@@ -56,11 +58,26 @@ const doctorSchema = new mongoose.Schema({
       return token 
     }
 
+        //hiding private data of user
+        doctorSchema.methods.getPublicProfile = function () {
+            const doctor = this
+            const doctorObject = doctor.toObject()
+            
+            
+            delete doctorObject.password
+            delete doctorObject.tokens
+            
+            return doctorObject
+        }
+       
+
+    //validating the entered email and password
     doctorSchema.statics.findByCredentials = async (email,password) => {
        
         const doctor = await doctor.findOne({ email })
+
         if(!doctor) {
-           //throw new Error('Email does not exists')
+            throw ('Email does not exists')
            return false
            
         }
@@ -69,7 +86,7 @@ const doctorSchema = new mongoose.Schema({
 
         if(!isMatch)
         {
-         //   throw new Error ('password is incorrect')
+            throw('password is incorrect')
          return false
             
         }
