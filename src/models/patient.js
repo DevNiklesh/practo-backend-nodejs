@@ -49,8 +49,13 @@ const patientSchema = new mongoose.Schema({
 
     //hiding private data of user
     patientSchema.methods.getPublicProfile = function () {
+<<<<<<< HEAD
         const patient = this
         const patientObject = patient.toObject()
+=======
+        const user = this
+        const userObject = user.toObject()
+>>>>>>> 7a5e201e7ee172edacd007269d0c69cbc33a5e28
         
         delete patientObject._id
         delete patientObject.password
