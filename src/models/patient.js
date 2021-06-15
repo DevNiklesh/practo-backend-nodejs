@@ -5,6 +5,7 @@ const jwt=require('jsonwebtoken')
 
 
 const patientSchema = new mongoose.Schema({
+        patient_id:mongoose.Schema.Types.ObjectId,
         name:{
             type:String,
             require:true,
@@ -47,30 +48,30 @@ const patientSchema = new mongoose.Schema({
     })
 
     //hiding private data of user
-    userSchema.methods.getPublicProfile = function () {
-        const user = this
-        const userObject = user.toObject()
+    patientSchema.methods.getPublicProfile = function () {
+        const patient = this
+        const patientObject = patient.toObject()
         
-        delete userObject._id
-        delete userObject.password
-        delete userObject.tokens
+        delete patientObject._id
+        delete patientObject.password
+        delete patientObject.tokens
         
-        return userObject
+        return patientObject
     }
    
     //generating jwt tokens
     patientSchema.methods.generateAuthToken = async function() {
       const patient = this
       
-      const token = jwt.sign({ _id:user._id.toString()},'thisisforauthentication')
-       await user.save()
+      const token = jwt.sign({ _id:patient._id.toString()},'thisisforauthentication')
+       await patient.save()
        return token
       
     }
 
     patientSchema.statics.findByCredentials = async (email,password) => {
        
-        const user = await User.findOne({ email })
+        const user = await Patient.findOne({ email })
         if(!user) {
             throw new Error('Email does not exists')
         }
@@ -99,9 +100,9 @@ const patientSchema = new mongoose.Schema({
     
 
     
-const patient = mongoose.model('patient',patientSchema)
+const Patient = mongoose.model('Patient',patientSchema)
     
 
 
 
-module.exports= patient
+module.exports= Patient
