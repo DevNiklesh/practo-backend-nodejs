@@ -8,5 +8,6 @@ const Appointments = require('../models/appointments')
 
 const index = module.exports ={
     dbconnection,
-    patient,
-    Doctor}
+    Patient,
+    Doctor,
+    Appointments}
