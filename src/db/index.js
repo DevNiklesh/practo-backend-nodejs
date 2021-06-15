@@ -1,5 +1,5 @@
-const mongoose = require('./db')
-const User =require('../models/patient')
+const dbconnection = require('./dbconnection')
+const Patient =require('../models/patient')
 const Doctor = require('../models/doctors')
 const Appointments = require('../models/appointments')
 
@@ -7,6 +7,6 @@ const Appointments = require('../models/appointments')
 
 
 const index = module.exports ={
-    mongoose,
-    User,
+    dbconnection,
+    patient,
     Doctor}

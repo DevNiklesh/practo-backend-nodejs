@@ -50,23 +50,23 @@ const patientSchema = new mongoose.Schema({
     patientSchema.methods.generateAuthToken = async function() {
       const patient = this
       
-      const token = jwt.sign({ _id:patient._id.toString()},'thisisforauthentication')
-      patient.tokens = patient.tokens.concat({ token } )
-       await patient.save()
-      return token 
+      const token = jwt.sign({ _id:user._id.toString()},'thisisforauthentication')
+       await user.save()
+       return token
+      
     }
 
     patientSchema.statics.findByCredentials = async (email,password) => {
        
-        const patient = await patient.findOne({ email })
-        if(!patient) {
-            throw new Error(JSON.parse('Email does not exists'))
+        const user = await User.findOne({ email })
+        if(!user) {
+            throw new Error('Email does not exists')
         }
 
         const isMatch = await bcrypt.compare(password,patient.password)
         if(!isMatch)
         {
-            throw new Error (JSON.parse('password is incorrect'))
+            throw new Error ('password is incorrect')
         }
         return patient
     }

@@ -1,5 +1,5 @@
 const express = require('express')
-const {User,mongoose}= require('../db/index')
+const {User,dbConnection}= require('../db/index')
 const authentication = require('../middleware/authentication')
 const router = new express.Router()
 
@@ -14,7 +14,7 @@ router.post('/signup',async (req,res) => {
 
     }
     catch(error) {
-        res.status(400).send(error)
+        res.status(400).send({error:"please enter valid email and password"})
     }
 })
 //For logging in User
@@ -24,7 +24,7 @@ router.post('/login',async (req,res) => {
         const token = await user.generateAuthToken()
         res.send({token,user})
       }catch(error){
-       res.status(400).send()
+       res.status(400).send({error:"Unable to login"})
     }
 })
 
