@@ -31,4 +31,15 @@ router.get("/listapp-doctor", async (req, res) => {
   }
 });
 
+router.patch("/update-status", async (req, res) => {
+  try {
+    await Appointments.update(
+      { appointmentId: `${req.query.id}` },
+      { $set: { accept_status: `${req.query.status}` } }
+    );
+    res.send(200);
+  } catch {
+    res.send(400);
+  }
+});
 module.exports = router;
