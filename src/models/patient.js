@@ -83,12 +83,12 @@ const patientSchema = new mongoose.Schema({
     
 //validating email and password of the patient
 patientSchema.statics.findByCredentials = async (email, password) => {
-  const user = await Patient.findOne({ email });
+  const user = await Patient.findOne({ email })
   if (!user) {
-    throw new Error("Email does not exists");
+    throw new Error("Email does not exists")
   }
 
-  const isMatch = await bcrypt.compare(password, patient.password);
+  const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
     throw new Error("password is incorrect");
   }
