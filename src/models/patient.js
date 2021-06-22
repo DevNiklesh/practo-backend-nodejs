@@ -33,26 +33,24 @@ const patientSchema = new mongoose.Schema({
       }
     }
   },
-  tokens: [
-    {
-      token: {
-        type: String,
-        require: true,
-      }
-    }
-  ],
-  appointment_id:[
-    {
-      appointment:{
-        type:Number
-      }
-    }
-  ],
   isDoctor:
   {
     type:Boolean,
     require:true,
+  },
+  age:{
+    type:Number
+  },
+  blood_group:{
+    type:String
+  },
+  date_of_birth:{
+    type:String
+  },
+  location:{
+    type:String
   }
+
 
 })
 

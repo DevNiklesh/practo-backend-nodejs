@@ -1,16 +1,15 @@
 const express = require('express')
-const {Patient,Doctor,Appointments}= require('../db/index')
-const authentication = require('../middleware/authentication')
+const {Patient,Doctor}= require('../db/index')
 const router = new express.Router()
 
 //return all the users
-router.get('/userlist' , authentication, function (req , res) {
+router.get('/userlist' ,function (req , res) {
     Patient.find({}).then(function (users) {
     res.send(users)
     })
    })
 
-   router.get('/doctorlist',authentication ,function (req , res) {
+   router.get('/doctorlist',function (req , res) {
     Doctor.find({}).then(function (users) {
     res.send(users)
     })

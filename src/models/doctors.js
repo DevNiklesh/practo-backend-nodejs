@@ -7,7 +7,10 @@ const jwt=require('jsonwebtoken')
 const doctorSchema = new mongoose.Schema({
 
     
-       doctor_id : mongoose.Schema.Types.ObjectId,
+       doctor_id :{ 
+           type:mongoose.Schema.Types.ObjectId,
+           ref:'Doctor'
+        },
         name:{
             type:String,
             require:true,
@@ -41,24 +44,25 @@ const doctorSchema = new mongoose.Schema({
             }
     
         },
-        tokens:[{
-            token:{
-                type:String,
-                require:true
-            }
-        }],
-
-        appointment_id:[{
-            appointment:{
-                type:Number,
-                
-            }
-        }],
+        
         isDoctor:{
             type:Boolean,
             require:true,
             
+        },
+
+        age:{
+            type:Number
+        },
+        
+        specialisation:{
+            type:String
+        },
+        isActive:{
+            type:Boolean,
+            default:false
         }
+
     })
    
     //generating jwt tokens
@@ -66,7 +70,7 @@ const doctorSchema = new mongoose.Schema({
       const doctor = this
       
       const token = jwt.sign({ _id:doctor._id.toString()},'thisisforauthentication')
-      doctor.tokens = doctor.tokens.concat({ token } )
+
        await doctor.save()
       return token 
     }
@@ -118,7 +122,7 @@ const doctorSchema = new mongoose.Schema({
 
       })
 
-    
+
 
     
 const Doctor = mongoose.model('Doctor',doctorSchema)
