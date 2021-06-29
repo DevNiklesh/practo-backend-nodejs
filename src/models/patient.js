@@ -4,8 +4,10 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const patientSchema = new mongoose.Schema({
-
-   patient_id:mongoose.Types.ObjectId,
+  patient_id: mongoose.Types.ObjectId,
+  avatar: {
+    type: Buffer,
+  },
   name: {
     type: String,
     require: true,
@@ -22,7 +24,7 @@ const patientSchema = new mongoose.Schema({
       if (!validator.isEmail(value)) {
         throw new Error("Email is invalid");
       }
-    }
+    },
   },
   password: {
     type: String,
@@ -31,59 +33,55 @@ const patientSchema = new mongoose.Schema({
       if (!validator.isStrongPassword(value)) {
         throw new Error("Password should be strong enough");
       }
-    }
+    },
   },
-  isDoctor:
-  {
-    type:Boolean,
-    require:true,
+  isDoctor: {
+    type: Boolean,
+    require: true,
   },
-  age:{
-    type:Number
+  age: {
+    type: Number,
   },
-  blood_group:{
-    type:String
+  blood_group: {
+    type: String,
   },
-  date_of_birth:{
-    type:String
+  date_of_birth: {
+    type: String,
   },
-  location:{
-    type:String
-  }
+  location: {
+    type: String,
+  },
+});
 
+//hiding private data of user
+patientSchema.methods.getPublicProfile = function () {
+  const patient = this;
+  const patientObject = patient.toObject();
 
-})
+  delete patientObject.isDoctor;
+  delete patientObject.password;
+  delete patientObject.tokens;
 
+  return patientObject;
+};
 
-        
-    //hiding private data of user
-    patientSchema.methods.getPublicProfile = function () {
-        const patient = this
-        const patientObject = patient.toObject()
-        
-        delete patientObject.isDoctor
-        delete patientObject.password
-        delete patientObject.tokens
-        
-        return patientObject
-    }
-   
-    //generating jwt tokens
-    patientSchema.methods.generateAuthToken = async function() {
-      const patient = this
-      
-      const token = jwt.sign({ _id:patient._id.toString()},'thisisforauthentication')
-       await patient.save()
-       return token
-      
-    }
+//generating jwt tokens
+patientSchema.methods.generateAuthToken = async function () {
+  const patient = this;
 
-    
+  const token = jwt.sign(
+    { _id: patient._id.toString() },
+    "thisisforauthentication"
+  );
+  await patient.save();
+  return token;
+};
+
 //validating email and password of the patient
 patientSchema.statics.findByCredentials = async (email, password) => {
-  const user = await Patient.findOne({ email })
+  const user = await Patient.findOne({ email });
   if (!user) {
-    throw new Error("Email does not exists")
+    throw new Error("Email does not exists");
   }
 
   const isMatch = await bcrypt.compare(password, user.password);
@@ -106,4 +104,4 @@ patientSchema.pre("save", async function (next) {
 
 const Patient = mongoose.model("Patient", patientSchema);
 
-module.exports= Patient
+module.exports = Patient;
