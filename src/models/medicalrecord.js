@@ -27,10 +27,5 @@ const medicalrecordSchema = new mongoose.Schema(
   }
 );
 
-<<<<<<< HEAD
 const MedicalRecord = mongoose.model("MedicalRecord", medicalrecordSchema);
 module.exports = MedicalRecord;
-=======
-const MedicalHistory = mongoose.model("medicHistory", medicalrecordSchema);
-module.exports = MedicalHistory;
->>>>>>> fc0fbca33d86fad256bff4242ff06011994d64dd
