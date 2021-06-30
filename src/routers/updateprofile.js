@@ -32,6 +32,14 @@ router.post(
           },
         }
       );
+      // let s = req.body.slots.split(","),
+      //   slots = [];
+      // for (let slot in s) {
+      //   let a = {};
+      //   a[s[slot]] = false;
+      //   slots.push(a);
+      // }
+      result.avaliableSlots = req.body.slots.split(",");
       result.save();
       res.status(200).send("user profile updated successfully");
     } catch (error) {

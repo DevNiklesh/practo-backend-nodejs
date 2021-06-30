@@ -55,6 +55,9 @@ const doctorSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  avaliableSlots: {
+    type: Array,
+  },
 });
 
 //generating jwt tokens
