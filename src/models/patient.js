@@ -76,7 +76,8 @@ patientSchema.methods.generateAuthToken = async function () {
 
   const token = jwt.sign(
     { _id: patient._id.toString() },
-    "thisisforauthentication"
+    "thisisforauthentication",
+    { expiresIn: "1 hour" }
   );
   await patient.save();
   return token;
