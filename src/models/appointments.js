@@ -9,7 +9,10 @@ const appointmentSchema = new mongoose.Schema(
     accept_status: {
       type: String,
       default: "Pending",
+<<<<<<< HEAD
+=======
       require: true,
+>>>>>>> fc0fbca33d86fad256bff4242ff06011994d64dd
     },
     doctor_id: {
       type: String,
@@ -19,6 +22,13 @@ const appointmentSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
+<<<<<<< HEAD
+    appointment_date:{
+      type:String,
+      default:null
+    }
+=======
+>>>>>>> fc0fbca33d86fad256bff4242ff06011994d64dd
   },
   {
     timestamps: true,

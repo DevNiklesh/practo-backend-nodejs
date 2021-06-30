@@ -34,6 +34,8 @@ router.post(
           },
         }
       );
+<<<<<<< HEAD
+=======
       // let s = req.body.slots.split(","),
       //   slots = [];
       // for (let slot in s) {
@@ -41,12 +43,17 @@ router.post(
       //   a[s[slot]] = false;
       //   slots.push(a);
       // }
+>>>>>>> fc0fbca33d86fad256bff4242ff06011994d64dd
       result.avaliableSlots = req.body.slots.split(",");
       result.save();
       res.status(200).send("user profile updated successfully");
     } catch (error) {
       console.log(error);
+<<<<<<< HEAD
+      res.sendStatus(400).send(error);
+=======
       res.status(400).send(error);
+>>>>>>> fc0fbca33d86fad256bff4242ff06011994d64dd
     }
   }
 );
@@ -71,7 +78,11 @@ router.post(
         }
       );
       result.save();
+<<<<<<< HEAD
+      res.sendStatus(200).send("user profile updated successfully");
+=======
       res.status(200).send("user profile updated successfully");
+>>>>>>> fc0fbca33d86fad256bff4242ff06011994d64dd
     } catch (error) {
       res.send(error);
     }
