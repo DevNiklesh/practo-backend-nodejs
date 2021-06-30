@@ -45,11 +45,14 @@ const patientSchema = new mongoose.Schema({
     type:String
   },
   date_of_birth:{
-    type:String
+    type:Date
   },
   location:{
     type:String
-  }
+  },
+  avatar: {
+    type: Buffer,
+  },
 
 
 })
@@ -61,7 +64,7 @@ const patientSchema = new mongoose.Schema({
         const patient = this
         const patientObject = patient.toObject()
         
-        delete patientObject.isDoctor
+      
         delete patientObject.password
         delete patientObject.tokens
         

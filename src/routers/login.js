@@ -12,18 +12,18 @@ router.post('/signup',async (req,res) => {
             const user = new Doctor(req.body)
          await user.save() 
         const token = await user.generateAuthToken()
-        res.status(201).send({ user:user.getPublicProfile(),token } )
+        res.sendStatus(201).send({ user:user.getPublicProfile(),token } )
           }
         else{
                 const user = new Patient(req.body)
              await user.save() 
             const token = await user.generateAuthToken()
-            res.status(201).send({ user:user.getPublicProfile(),token } )
+            res.sendStatus(201).send({ user:user.getPublicProfile(),token } )
 
         }
     }
     catch(error) {
-        res.status(400).send({error:"please enter valid email and password"})
+        res.sendStatus(400).send({error:"please enter valid email and password"})
     }
 })
 //For logging in Doctor
@@ -46,7 +46,7 @@ router.post('/login',async (req,res) => {
         
         
         catch(error){
-       res.status(400).send({error:"Unable to login"})
+       res.sendStatus(400).send({error:"Unable to login"})
     }
 })
 

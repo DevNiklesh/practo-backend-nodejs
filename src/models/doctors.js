@@ -60,10 +60,26 @@ const doctorSchema = new mongoose.Schema({
         },
         isActive:{
             type:Boolean,
-            default:false
-        }
+            default:true
+        },
+        reviews:[{
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'Rating'
+        }],
+        averageRating:{
+            type:Number,
+            default:0
+        },
+        avatar: {
+            type: Buffer,
+          },
+          avaliableSlots: {
+            type: Array,
+          }
+       
 
     })
+
    
     //generating jwt tokens
     doctorSchema.methods.generateAuthToken = async function() {
@@ -80,7 +96,6 @@ const doctorSchema = new mongoose.Schema({
         const doctor = this
         const doctorObject = doctor.toObject()
         
-        delete doctorObject.isDoctor
         delete doctorObject.password
         delete doctorObject.tokens
         
