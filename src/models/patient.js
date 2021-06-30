@@ -98,8 +98,8 @@ patientSchema.pre("save", async function (next) {
     user.password = await bcrypt.hash(user.password, 8);
   }
 
-  next();
-});
+  next()
+})
 
 const Patient = mongoose.model("Patient", patientSchema);
 

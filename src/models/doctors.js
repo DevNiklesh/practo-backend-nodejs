@@ -80,8 +80,8 @@ doctorSchema.methods.generateAuthToken = async function () {
   );
 
   await doctor.save();
-  return token;
-};
+  return token
+}
 
 //hiding private details of the user
 doctorSchema.methods.getPublicProfile = function () {
@@ -109,57 +109,6 @@ doctorSchema.statics.findByCredentials = async (email, password) => {
   return user;
 };
 
-//Hashing the password before saving
-doctorSchema.pre(
-  "save",
-  async function (next) {
-    const doctor = this;
-
-    if (doctor.isModified("password")) {
-      doctor.password = await bcrypt.hash(doctor.password, 8);
-    }
-  },
-  //generating jwt tokens
-  (doctorSchema.methods.generateAuthToken = async function () {
-    const doctor = this;
-
-    const token = jwt.sign(
-      { _id: doctor._id.toString() },
-      "thisisforauthentication",
-      { expiresIn: "5 hour" }
-    );
-
-    await doctor.save();
-    return token;
-  })
-);
-
-//hiding private details of the user
-doctorSchema.methods.getPublicProfile = function () {
-  const doctor = this;
-  const doctorObject = doctor.toObject();
-
-  delete doctorObject.isDoctor;
-  delete doctorObject.password;
-  delete doctorObject.tokens;
-
-  return doctorObject;
-};
-
-//validating the entered email and password
-doctorSchema.statics.findByCredentials = async (email, password) => {
-  const user = await Doctor.findOne({ email });
-
-  if (!user) {
-    throw "Email does not exists";
-  }
-
-  const isMatch = await bcrypt.compare(password, user.password);
-  if (!isMatch) {
-    throw "password is incorrect";
-  }
-  return user;
-};
 
 //Hashing the password before saving
 doctorSchema.pre("save", async function (next) {
