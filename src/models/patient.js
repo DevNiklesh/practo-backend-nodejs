@@ -51,6 +51,11 @@ const patientSchema = new mongoose.Schema({
   location: {
     type: String,
   },
+  onBoarding: {
+    type: Boolean,
+    default: true,
+    require: false,
+  },
 });
 
 //hiding private data of user
