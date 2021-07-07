@@ -1,68 +1,31 @@
 const express = require("express");
-const { dbConnection, Prescription, Appointments } = require("../db/index");
-const authentication = require("../middleware/authentication");
+const {
+  updatePrecriptionList,
+  getPrescription,
+  deletePrescription,
+  createPrescription
+} = require('../controllers/prescription')
 
-const router = new express.Router();
+const router = new express.Router()
 
-router.post("/prescription", authentication, async (req, res) => {
-  try {
-    const prescription = new Prescription(req.body);
-    await prescription.save();
-    res.status(200).send(prescription);
-  } catch (error) {
-    res.sendStatus(400).send({ error: "send valid prescription list" });
-  }
-});
+router
+.route('/prescription')
+.post(createPrescription)
 
-router.get("/prescriptionlist", authentication, async (req, res) => {
-  try {
-    const result = await Prescription.find({
-      appointment_id: `${req.query.id}`,
-    });
-    res.sendStatus(200).send(result);
-  } catch {
-    res.sendStatus(400);
-  }
-});
+router
+.route('/prescriptionlist')
+.get(getPrescription)
 
-// updating the new medicines
-router.put("/update_prescriptionlist", authentication, async (req, res) => {
-  try {
-    const result = await Prescription.findByIdAndUpdate(
-      { _id: `${req.query.id}` },
-      { $set: { prescribed_medicines: `${req.query.medicines}` } }
-    );
-    result.save();
-    res.sendStatus(200).send(result);
-  } catch (error) {
-    res.sendStatus(400).send(error);
-  }
-});
-//adding more medicines to the list
-router.put("/update_prescriptionlist", authentication, async (req, res) => {
-  try {
-    const result = await Prescription.findByIdAndUpdate(
-      { _id: `${req.query.id}` },
-      { $push: { prescribed_medicines: `${req.query.medicines}` } }
-    );
-    result.save();
-    res.sendStatus(200).send(result);
-  } catch (error) {
-    res.sendStatus(400).send(error);
-  }
-});
+router
+.route('/update_prescriptionlist')
+.put(updatePrecriptionList)
 
-//deleting the medicines
-router.delete("/delete_medicines", authentication, async (req, res) => {
-  try {
-    const result = await Prescription.findByIdAndUpdate(
-      { _id: `${req.query.id}` },
-      { $pull: { prescribed_medicines: `${req.query.medicines}` } }
-    );
-    result.save();
-    res.sendStatus(200).send(result);
-  } catch (error) {
-    res.sendStatus(400).send(error);
-  }
-});
+router
+.route('/delete_prescriptionlist')
+.delete(deletePrescription)
+
+
+
+
+
 module.exports = router;

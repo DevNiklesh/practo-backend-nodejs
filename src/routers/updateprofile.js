@@ -17,7 +17,7 @@ const upload = multer({
   },
 });
 
-//updating the user profile of  doctor
+//uploading the user profile of  doctor
 router.post(
   "/doctorprofile",
   authdoctor,
@@ -44,7 +44,7 @@ router.post(
   }
 );
 
-//updating the user profile of patient
+//uploading the user profile of patient
 router.post(
   "/patientprofile",
   authpatient,

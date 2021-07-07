@@ -162,7 +162,7 @@ router.get(
       res.sendStatus(400).send("No user found");
     }
   }
-);
+)
 
 router.delete("/delete-medical-history", authentication, async (req, res) => {
   try {
