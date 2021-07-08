@@ -24,7 +24,7 @@ exports.getDoctor = async (req,res,next) => {
 exports.getDoctors = async (req,res) => {
     try {
         const Doctors = await Doctor.find()
-        res.sendStatus(200).json({success:true ,data:Doctors})
+        res.send({success:true,data:Doctors})
     } catch (error) {
         res.status(400).json({success:false}) 
     }
@@ -38,7 +38,7 @@ exports.getDoctors = async (req,res) => {
 exports.getPatients = async (req,res,next) => {
     try {
         const Patients = await Patient.find()
-        res.sendStatus(200).json({success:true, data: Patients})
+        res.send({success:true, data: Patients})
         
     } catch (error) {
         res.sendStatus(400).json({success:false})
