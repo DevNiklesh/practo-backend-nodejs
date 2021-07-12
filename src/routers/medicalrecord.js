@@ -35,17 +35,10 @@ router.post(
           )
             path.push(files.buffer);
           else
-<<<<<<< HEAD
             return res.sendStatus(400).send("Please upload images only for X-ray");
         });
         med.xray = path;
       } else return res.sendStatus(400).send("No files attached");
-=======
-            return res.status(400).send("Please upload images only for X-ray");
-        });
-        med.xray = path;
-      } else return res.status(400).send("No files attached");
->>>>>>> fc0fbca33d86fad256bff4242ff06011994d64dd
       if (req.files.medicaldoc) {
         let path = [];
         req.files.medicaldoc.forEach(function (files, index, arr) {
@@ -56,34 +49,19 @@ router.post(
             path.push(files.buffer);
           else
             return res
-<<<<<<< HEAD
               .sendStatus(400)
               .send("Please upload Word document only for Medical document");
         });
         med.medicaldoc = path;
       } else return res.sendStatus(400).send("No files attached");
-=======
-              .status(400)
-              .send("Please upload Word document only for Medical document");
-        });
-        med.medicaldoc = path;
-      } else return res.status(400).send("No files attached");
->>>>>>> fc0fbca33d86fad256bff4242ff06011994d64dd
       if (req.files.report) {
         let path = [];
         req.files.report.forEach(function (files, index, arr) {
           if (files.mimetype == "application/pdf") path.push(files.buffer);
-<<<<<<< HEAD
           else return res.sendStatus(400).send("Please upload PDF only for report");
         });
         med.report = path;
       } else return res.sendStatus(400).send("No files attached");
-=======
-          else return res.status(400).send("Please upload PDF only for report");
-        });
-        med.report = path;
-      } else return res.status(400).send("No files attached");
->>>>>>> fc0fbca33d86fad256bff4242ff06011994d64dd
       if (req.files.currentMedicine) {
         let path = [];
         req.files.currentMedicine.forEach(function (files, index, arr) {
@@ -95,34 +73,20 @@ router.post(
             path.push(files.buffer);
           else
             return res
-<<<<<<< HEAD
               .sendStatus(400)
-=======
-              .status(400)
->>>>>>> fc0fbca33d86fad256bff4242ff06011994d64dd
               .send("Please upload Image for Current medicine");
         });
         med.currentMedicine = path;
       } else return res.status(400).send("No files attached");
       med.save();
-<<<<<<< HEAD
       res.sendStatus(200).send("Patient Medical history created");
     } catch (error) {
       res.sendStatus(400).send("No user found");
-=======
-      res.status(200).send("Patient Medical history created");
-    } catch (error) {
-      res.status(400).send("No user found");
->>>>>>> fc0fbca33d86fad256bff4242ff06011994d64dd
     }
   }
 );
 
-<<<<<<< HEAD
 router.put(
-=======
-router.patch(
->>>>>>> fc0fbca33d86fad256bff4242ff06011994d64dd
   "/update-patient-medical-history",
   authentication,
   documents.fields([
@@ -149,11 +113,7 @@ router.patch(
             "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
           )
             medicaldoc.push(files.buffer);
-<<<<<<< HEAD
           else return res.sendStatus(400).send("Attach required file formats");
-=======
-          else return res.status(400).send("Attach required file formats");
->>>>>>> fc0fbca33d86fad256bff4242ff06011994d64dd
         });
       } else return res.status(400).send("No files attached");
       if (req.files.currentMedicine) {
@@ -165,11 +125,7 @@ router.patch(
           )
             currentMedicine.push(files.buffer);
         });
-<<<<<<< HEAD
       } else return res.sendStatus(400).send("No files attached");
-=======
-      } else return res.status(400).send("No files attached");
->>>>>>> fc0fbca33d86fad256bff4242ff06011994d64dd
       await MedicalRecord.findOneAndUpdate({
         patient_id: `${req.query.id}`,
         $push: {
@@ -182,11 +138,7 @@ router.patch(
       res.status(200).send("Patient medical history updated");
     } catch (error) {
       console.log(error.message);
-<<<<<<< HEAD
       res.sendStatus(400).send("No user found");
-=======
-      res.status(400).send("No user found");
->>>>>>> fc0fbca33d86fad256bff4242ff06011994d64dd
     }
   }
 );
@@ -200,15 +152,9 @@ router.get(
         patient_id: `${req.query.id}`,
       });
       if (medic_history.length) res.status(200).send(medic_history);
-<<<<<<< HEAD
       else res.sendStatus(400).send("No user found");
     } catch {
       res.sendStatus(400).send("No user found");
-=======
-      else res.status(400).send("No user found");
-    } catch {
-      res.status(400).send("No user found");
->>>>>>> fc0fbca33d86fad256bff4242ff06011994d64dd
     }
   }
 );
@@ -218,15 +164,9 @@ router.delete("/delete-medical-history", authentication, async (req, res) => {
     const result = await MedicalRecord.findOneAndDelete({
       patient_id: `${req.query.id}`,
     });
-<<<<<<< HEAD
     res.sendStatus(200).send("Patient Medical History deleted");
   } catch (error) {
     res.sendStatus(400).send("No User found");
-=======
-    res.status(200).send("Patient Medical History deleted");
-  } catch (error) {
-    res.status(400).send("No User found");
->>>>>>> fc0fbca33d86fad256bff4242ff06011994d64dd
   }
 });
 module.exports = router;

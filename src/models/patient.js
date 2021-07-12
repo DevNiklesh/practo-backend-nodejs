@@ -45,43 +45,15 @@ const patientSchema = new mongoose.Schema({
   blood_group: {
     type: String,
   },
-<<<<<<< HEAD
   date_of_birth:{
     type:Date
   },
   location:{
     type:String
-  },
-  avatar: {
-    type: Buffer,
-  },
-=======
-  date_of_birth: {
-    type: String,
-  },
-  location: {
-    type: String,
-  },
-});
->>>>>>> fc0fbca33d86fad256bff4242ff06011994d64dd
+  }
+})
 
-//hiding private data of user
-patientSchema.methods.getPublicProfile = function () {
-  const patient = this;
-  const patientObject = patient.toObject();
 
-  delete patientObject.isDoctor;
-  delete patientObject.password;
-  delete patientObject.tokens;
-
-  return patientObject;
-};
-
-//generating jwt tokens
-patientSchema.methods.generateAuthToken = async function () {
-  const patient = this;
-
-<<<<<<< HEAD
         
     //hiding private data of user
     patientSchema.methods.getPublicProfile = function () {
@@ -104,15 +76,6 @@ patientSchema.methods.generateAuthToken = async function () {
        return token
       
     }
-=======
-  const token = jwt.sign(
-    { _id: patient._id.toString() },
-    "thisisforauthentication"
-  );
-  await patient.save();
-  return token;
-};
->>>>>>> fc0fbca33d86fad256bff4242ff06011994d64dd
 
 //validating email and password of the patient
 patientSchema.statics.findByCredentials = async (email, password) => {
@@ -125,8 +88,8 @@ patientSchema.statics.findByCredentials = async (email, password) => {
   if (!isMatch) {
     throw new Error("password is incorrect");
   }
-  return user;
-};
+  return user
+}
 
 //Hashing the password before saving
 patientSchema.pre("save", async function (next) {
@@ -136,8 +99,8 @@ patientSchema.pre("save", async function (next) {
     user.password = await bcrypt.hash(user.password, 8);
   }
 
-  next();
-});
+  next()
+})
 
 const Patient = mongoose.model("Patient", patientSchema);
 
