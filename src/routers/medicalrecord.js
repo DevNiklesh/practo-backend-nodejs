@@ -35,7 +35,13 @@ router.post(
           )
             path.push(files.buffer);
           else
+<<<<<<< HEAD
             return res.sendStatus(400).send("Please upload images only for X-ray");
+=======
+            return res
+              .sendStatus(400)
+              .send("Please upload images only for X-ray");
+>>>>>>> c222751dcd8bb59f48fb8399809974dc3ed9f885
         });
         med.xray = path;
       } else return res.sendStatus(400).send("No files attached");
@@ -58,7 +64,14 @@ router.post(
         let path = [];
         req.files.report.forEach(function (files, index, arr) {
           if (files.mimetype == "application/pdf") path.push(files.buffer);
+<<<<<<< HEAD
           else return res.sendStatus(400).send("Please upload PDF only for report");
+=======
+          else
+            return res
+              .sendStatus(400)
+              .send("Please upload PDF only for report");
+>>>>>>> c222751dcd8bb59f48fb8399809974dc3ed9f885
         });
         med.report = path;
       } else return res.sendStatus(400).send("No files attached");

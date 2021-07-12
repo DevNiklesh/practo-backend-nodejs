@@ -12,7 +12,7 @@ router.post("/newapp", (req, res) => {
     res.sendStatus(400);
   }
 });
-router.get("/listapp-patient",async (req, res) => {
+router.get("/listapp-patient", async (req, res) => {
   try {
     const result = await Appointments.find({ patient_id: `${req.query.id}` });
     result.length ? res.sendStatus(result) : res.sendStatus(404);
@@ -21,7 +21,11 @@ router.get("/listapp-patient",async (req, res) => {
   }
 });
 
+<<<<<<< HEAD
 router.get("/listapp-doctor",async (req, res) => {
+=======
+router.get("/listapp-doctor", async (req, res) => {
+>>>>>>> c222751dcd8bb59f48fb8399809974dc3ed9f885
   try {
     const result = await Appointments.find({ doctor_id: `${req.query.id}` });
     result.length ? res.sendStatus(result) : res.sendStatus(404);

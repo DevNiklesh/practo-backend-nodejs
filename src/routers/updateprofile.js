@@ -1,6 +1,8 @@
 const express = require("express");
 const { Doctor, Patient, dbConnection } = require("../db/index");
 const authentication = require("../middleware/authentication");
+const authdoctor = require("../middleware/authdoctor");
+const authpatient = require("../middleware/authpatient");
 const router = new express.Router();
 const multer = require("multer");
 
@@ -18,7 +20,7 @@ const upload = multer({
 //updating the user profile of  doctor
 router.post(
   "/doctorprofile",
-  authentication,
+  authdoctor,
   upload.single("avatar"),
   async (req, res) => {
     try {
@@ -45,7 +47,7 @@ router.post(
 //updating the user profile of patient
 router.post(
   "/patientprofile",
-  authentication,
+  authpatient,
   upload.single("avatar"),
   async (req, res) => {
     try {

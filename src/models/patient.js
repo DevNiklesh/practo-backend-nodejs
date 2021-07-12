@@ -45,6 +45,7 @@ const patientSchema = new mongoose.Schema({
   blood_group: {
     type: String,
   },
+<<<<<<< HEAD
   date_of_birth:{
     type:Date
   },
@@ -52,8 +53,29 @@ const patientSchema = new mongoose.Schema({
     type:String
   }
 })
+=======
+  date_of_birth: {
+    type: Date,
+  },
+  location: {
+    type: String,
+  },
+});
+
+//hiding private data of user
+patientSchema.methods.getPublicProfile = function () {
+  const patient = this;
+  const patientObject = patient.toObject();
+
+  delete patientObject.password;
+  delete patientObject.tokens;
+
+  return patientObject;
+};
+>>>>>>> c222751dcd8bb59f48fb8399809974dc3ed9f885
 
 
+<<<<<<< HEAD
         
     //hiding private data of user
     patientSchema.methods.getPublicProfile = function () {
@@ -76,6 +98,15 @@ const patientSchema = new mongoose.Schema({
        return token
       
     }
+=======
+  const token = jwt.sign(
+    { _id: patient._id.toString() },
+    "thisisforauthentication"
+  );
+  await patient.save();
+  return token;
+};
+>>>>>>> c222751dcd8bb59f48fb8399809974dc3ed9f885
 
 //validating email and password of the patient
 patientSchema.statics.findByCredentials = async (email, password) => {
