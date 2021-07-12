@@ -30,8 +30,8 @@ const doctorSchema = new mongoose.Schema({
     type: String,
     require: true,
     validate(value) {
-      if (!validator.isStrongPassword(value)) {
-        throw new Error("Password should be strong enough");
+      if (value.length<8) {
+        throw new Error("Password should be strong enough and of eight characters");
       }
     },
   },
@@ -99,12 +99,12 @@ doctorSchema.statics.findByCredentials = async (email, password) => {
   const user = await Doctor.findOne({ email });
 
   if (!user) {
-    throw "Email does not exists";
+    throw new Error("Email does not exists");
   }
 
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
-    throw "password is incorrect";
+    throw new Error("password is incorrect");
   }
   return user;
 };

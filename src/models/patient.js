@@ -11,7 +11,7 @@ const patientSchema = new mongoose.Schema({
   name: {
     type: String,
     require: true,
-    trim: true,
+    trim: [true,'name required']
   },
 
   email: {
@@ -24,17 +24,17 @@ const patientSchema = new mongoose.Schema({
       if (!validator.isEmail(value)) {
         throw new Error("Email is invalid");
       }
-    },
+    }
   },
   password: {
     type: String,
-    require: true,
+    require: [true,'password should be of eight characters'],
     validate(value) {
-      if (!validator.isStrongPassword(value)) {
-        throw new Error("Password should be strong enough");
+      if (value.length<8) {
+        throw new Error("Password should be strong enough and of eight characters");
       }
-    },
-  },
+    }, 
+   },
   isDoctor: {
     type: Boolean,
     require: true,
@@ -80,12 +80,12 @@ patientSchema.methods.generateAuthToken = async function () {
 patientSchema.statics.findByCredentials = async (email, password) => {
   const user = await Patient.findOne({ email });
   if (!user) {
-    throw new Error("Email does not exists");
+    throw new Error ("Email does not exists");
   }
 
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
-    throw new Error("password is incorrect");
+    throw new Error ("password is incorrect");
   }
   return user;
 };

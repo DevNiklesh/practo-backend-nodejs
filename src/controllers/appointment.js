@@ -4,13 +4,13 @@ const Appointments = require('../models/appointments')
 //@desc create a appointment 
 //@route POST/newapp
 //@access Private
-exports.createAppointment = async (req,res) => {
+exports.createAppointment = async (req,res,next) => {
     try {
         const app = new Appointments(req.body)
         await app.save()
         res.sendStatus(200).json({success:true, msg: 'Appointment is created successfully'})
-      } catch(error){
-        res.sendStatus(400).send(error)
+      } catch(err){
+        next(err)
       }
 }
 
@@ -21,8 +21,10 @@ exports.getAppointment = async (req,res,next) => {
     try {
         const result = await Appointments.find({ patient_id: `${req.query.id}` })
         result.length ? res.send(result) : res.sendStatus(404)
-      } catch {
-        res.sendStatus(400)
+      } catch(err){
+        next(err)
+
+        
       }
 }
 
@@ -33,8 +35,9 @@ exports.getDoctorAppointment = async (req,res,next) => {
     try {
         const result = await Appointments.find({ doctor_id: `${req.query.id}` })
         result.length ? res.send(result) : res.sendStatus(404)
-      } catch {
-        res.sendStatus(400)
+      } catch(err) {
+        next(err)
+        
       }
 }
 
@@ -49,8 +52,8 @@ exports.updateAppointment = async (req,res,next) => {
         );
         result.save();
         res.sendStatus(200).send(result)
-      } catch (error) {
-        res.sendStatus(400).send(error)
+      } catch (err) {
+        next(err)
       }
 }
 

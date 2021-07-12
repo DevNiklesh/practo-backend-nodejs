@@ -3,7 +3,7 @@ const Rating = require('../models/rating')
 //@desc create an rating for a doctor
 //@route POST/review/:id
 //@access Private
-exports.createRating = async(req,res) => {
+exports.createRating = async(req,res,next) => {
     const rating = Rating.create(req.body)
     .then(function (rating) {
       return Doctor.findOneAndUpdate(
@@ -15,8 +15,9 @@ exports.createRating = async(req,res) => {
     .then(function (dbDoctor) {
       res.json(dbDoctor);
     })
-    .catch(function (error) {
-      res.sendStatus(400).send(error);
+    .catch(function (err) {
+      next(err)
+      
     })
 
 }
@@ -24,21 +25,21 @@ exports.createRating = async(req,res) => {
 //@desc getting the ratings and feedback for a doctor
 //@route GET/review/:id
 //@access Private
-exports.getRating = async(req,res) => {
+exports.getRating = async(req,res,next) => {
     Doctor.findOne({ _id: req.params.id })
     .populate("reviews")
     .then(function (dbDoctor) {
       res.json(dbDoctor);
     })
-    .catch(function (error) {
-      res.sendStatus(200).send(error)
+    .catch(function (err) {
+      next(err)
     })
 }
 
 //@desc updating the reviews 
 //@route PUT/update_reviews
 //@access Private
-exports.updateRating = async(req,res) => {
+exports.updateRating = async(req,res,next) => {
     let review = Rating.findById(req.query.id)
 
   if(!review){
