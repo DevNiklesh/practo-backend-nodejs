@@ -1,20 +1,21 @@
 const jwt = require("jsonwebtoken");
 const { Patient, Doctor } = require("../db/index");
+const errorResponse = require('../utils/errorResponse')
 
 const authentication = async (req, res, next) => {
-  try {
+
+     try {
     const token = req.header("Authorization").replace("Bearer ", "");
     const decoded = jwt.verify(token, "thisisforauthentication");
     let user = Doctor.findOne({ _id: decoded._id, "tokens.token": token });
     if (!user) {
       user = Patient.findOne({ _id: decoded._id, "tokens.token": token });
-      if (!user) throw new Error();
+      if (!user)
+       throw new Error(`Not authorized to access the route`,401);
     }
     req.user = user;
-
-    next();
-  } catch {
-    res.status(401).send({ error: "please authenticate" });
+  } catch(err) {
+    next(err)
   }
 };
 
@@ -47,6 +48,5 @@ const authentication = async (req, res, next) => {
 // };
 
 //creating a review for a doctor
-///
 
-module.exports = authentication;
+module.exports = authentication

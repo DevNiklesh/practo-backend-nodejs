@@ -1,6 +1,6 @@
 const express = require("express");
 const { MedicalRecord, Patient, dbConnection } = require("../db/index");
-const authentication = require("../middleware/authentication");
+const authentication = require('../middleware/authentication')
 const router = new express.Router();
 const multer = require("multer");
 

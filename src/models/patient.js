@@ -5,8 +5,8 @@ const jwt = require("jsonwebtoken");
 
 const patientSchema = new mongoose.Schema({
   patient_id: mongoose.Types.ObjectId,
-  avatar: {
-    type: Buffer,
+  photo: {
+    type: String,
   },
   name: {
     type: String,

@@ -10,13 +10,13 @@ const doctorSchema = new mongoose.Schema({
   },
   name: {
     type: String,
-    require: true,
+    required: [true,'Please add a name'],
     trim: true,
   },
 
   email: {
     type: String,
-    require: true,
+    required: [true,'please add a email'],
     unique: true,
     trim: true,
     lowercase: true,
@@ -62,8 +62,8 @@ const doctorSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  avatar: {
-    type: Buffer,
+  photo: {
+    type: String,
   },
   avaliableSlots: {
     type: Array,
